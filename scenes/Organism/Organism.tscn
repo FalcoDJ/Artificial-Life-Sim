@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/Organism/Organism.gd" type="Script" id=1]
+
+[node name="Organism" type="KinematicBody2D"]
+collision_mask = 0
+script = ExtResource( 1 )
+speed = 400.0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -16, 0, -4, -12, 24, 0, -4, 12 )
+
+[node name="ChaserBody" type="Polygon2D" parent="."]
+visible = false
+position = Vector2( 8, 0 )
+color = Color( 0.807843, 0.258824, 0.337255, 1 )
+polygon = PoolVector2Array( -12, -8, 4, -4, 12, 0, 4, 4, -12, 8, -20, 0 )
+
+[node name="RunnerBody" type="Polygon2D" parent="."]
+position = Vector2( 8, 0 )
+color = Color( 0.313726, 0.807843, 0.258824, 1 )
+polygon = PoolVector2Array( -12, -8, 4, -4, 8, 0, 4, 4, -12, 8, -20, 0 )
+
+[node name="FRONT" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Front" type="CollisionPolygon2D" parent="FRONT"]
+polygon = PoolVector2Array( 0, -16, 12, -28, 24, -32, 44, -24, 52, 0, 44, 24, 24, 32, 12, 28, 0, 16, 28, 0 )
+
+[node name="BlindTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="body_entered" from="FRONT" to="." method="_on_FRONT_body_entered"]
+[connection signal="body_exited" from="FRONT" to="." method="_on_FRONT_body_exited"]
+[connection signal="timeout" from="BlindTimer" to="." method="_on_BlindTimer_timeout"]
